@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Convert Jacobin
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Checkout Go2V
+      uses: actions/checkout@v3
+      with:
+        repository: vlang/go2v
+        path: go2v
+
+    - name: Checkout Jacobin
+      uses: actions/checkout@v3
+      with:
+        repository: platypusguy/jacobin
+        path: jacobin
+
+    - name: Setup V
+      uses: vlang/setup-v@v1
+      with:
+        check-latest: true
+        
+    - name: Convert
+      run: v run $PWD/go2v/go2v.v $PWD/jacobin/src
+
